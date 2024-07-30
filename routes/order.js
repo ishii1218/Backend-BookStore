@@ -156,16 +156,22 @@ router.get('/getAllOrders', authenticateToken, async (req, res) => {
     }
 });
 
-//update order status by admin
-router.put('/updateOrderStatus/:id', authenticateToken, async (req, res) => {
+//update order status 
+router.put('/updateOrderStatus/:bookId', authenticateToken, async (req, res) => {
     try {
-        const {id} = req.params;
-        await Order.findByIdAndUpdate(id,{
-            status: req.body.status
-        });
+        console.log('Order',req.body);
+        const { bookId } = req.params;
+        const { status } = req.body;
+        const order = await Order.findOneAndUpdate(
+            { book: bookId },
+            { status: status },
+            { new: true } // Return the updated document
+        );
+        console.log('Order',order);
         return res.status(200).json({ 
             status: "success",
-            message: "Order status updated successfully" 
+            message: "Order status updated successfully",
+            order
         });
     } catch (error) {
         console.log(error);

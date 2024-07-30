@@ -16,7 +16,7 @@ router.post('/addBook', authenticateToken, async (req, res) => {
             url:req.body.url,
             title:req.body.title,
             author:req.body.author,
-            price:req.body.price,
+            genre:req.body.genre,
             description:req.body.description,
             language:req.body.language
         });
@@ -35,7 +35,7 @@ router.put('/updateBook', authenticateToken, async (req, res) => {
             url : req.body.url,
             title : req.body.title,
             author : req.body.author,
-            price : req.body.price,
+            genre : req.body.genre,
             description : req.body.description,
             language : req.body.language
         });
@@ -75,7 +75,7 @@ router.get('/getAllBooks', async (req, res) => {
 //get recently added books limit to 4
 router.get('/getRecentBooks', async (req, res) => {
     try {
-        const books = await Book.find().sort({createdAt: -1}).limit(4);
+        const books = await Book.find().sort({createdAt: -1}).limit(5);
         return res.status(200).json({
             status:"success",
             data:books

@@ -14,8 +14,8 @@ const book = new mongoose.Schema(
             type: String,
             required: true
         },
-        price: {
-            type: Number,
+        genre: {
+            type: String,
             required: false
         },
         description: {
