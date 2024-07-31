@@ -45,6 +45,11 @@ const user = new mongoose.Schema(
                 ref: 'order'
             }
         ],
+        package:{
+            type: String,
+            default: 'no package',
+            enum: ['main', 'premium']
+        },
     
     },
     {timestamps: true}

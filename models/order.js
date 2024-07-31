@@ -15,7 +15,12 @@ const order = new mongoose.Schema(
             type: String,
             default: 'In Collection',
             enum: [ 'In Collection','Reading', 'Finished']
-        }
+        },
+        rating: {
+            type: Number,
+            default: '',     
+        },
+
     },
     {timestamps: true}
 );

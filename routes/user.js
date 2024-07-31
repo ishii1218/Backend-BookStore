@@ -96,6 +96,20 @@ router.get('/user-information',authenticateToken, async (req, res) => {
     }
 });
 
+// Update package
+router.put('/update-package', authenticateToken, async (req, res) => {
+    console.log('reqBody',req.body)
+    try {
+        const { id } = req.headers;
+        const { package } = req.body;
+        await User.findByIdAndUpdate(id, { package: package });
+        return res.status(200).json({ message: "Package updated successfully" });
+    } catch (error) {
+        console.log('error updating package:',error.message)
+        res.status(500).json({ message: "Internal server Error" });
+    }
+});
+
 //update address
 router.put('/update-address',authenticateToken, async (req, res) => {
     try {
