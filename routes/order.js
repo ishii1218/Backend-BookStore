@@ -178,6 +178,28 @@ router.put('/updateOrderStatus/:bookId', authenticateToken, async (req, res) => 
         res.status(500).json({ message: "Internal server Error" });
     }
 });
+//update order rating
+router.put('/updateOrderRating/:bookId', authenticateToken, async (req, res) => {
+    try {
+        console.log('Order',req.body);
+        const { bookId } = req.params;
+        const { rating } = req.body;
+        const order = await Order.findOneAndUpdate(
+            { book: bookId },
+            { rating: rating },
+            { new: true } // Return the updated document
+        );
+        console.log('Order',order);
+        return res.status(200).json({ 
+            status: "success",
+            message: "Order rating updated successfully",
+            order
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal server Error" });
+    }
+});
 
 
 module.exports = router;
