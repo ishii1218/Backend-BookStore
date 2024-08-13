@@ -7,10 +7,11 @@ const {authenticateToken} = require('./userAuth');
 //signup
 
 router.post('/signup', async (req, res) => {
+    console.log('reqBody',req.body)
     try {
         const { username, email, password, address} = req.body;
 
-        if(username.length < 4){
+        if(username.length < 2){
             return res
             .status(400)
             .json({ message: "Username length should be greater than 3 " });
@@ -54,6 +55,7 @@ router.post('/signup', async (req, res) => {
         
     } catch (error) {
         res.status(500).json({ message: "Internal server Error" });
+        console.log('error:',error.message)
     }
 });
 
@@ -121,6 +123,43 @@ router.put('/update-address',authenticateToken, async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Internal server Error" });
     }
+});
+
+//number of users categorized by month 
+router.get('/users-by-month', async (req, res) => {
+    // console.log('users by month',req)
+    try {
+        const users = await User.aggregate([
+          {
+            $match: { role: 'user' },
+          },
+          {
+            $group: {
+              _id: { $month: '$createdAt' },
+              count: { $sum: 1 },
+            },
+          },
+          {
+            $sort: { _id: 1 },
+          },
+        ]);
+    
+        const months = [
+          'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+          'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+        ];
+        const userCountsByMonth = Array(12).fill(0);
+        users.forEach(({ _id, count }) => {
+          userCountsByMonth[_id - 1] = count;
+        });
+    
+        res.json({
+          months,
+          userCountsByMonth,
+        });
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
 });
 
 

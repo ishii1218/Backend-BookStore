@@ -98,4 +98,28 @@ router.get('/getBookById/:id', async (req, res) => {
         res.status(500).json({ message: "Internal server Error" });
     }
 });
+
+//get number of book by genre
+router.get('/getBooksByGenre', async (req, res) => {
+    try {
+        const genres = await Book.aggregate([
+          {
+            $group: {
+              _id: '$genre',
+              count: { $sum: 1 },
+            },
+          },
+        ]);
+    
+        const genreLabels = genres.map(g => g._id);
+        const genreCounts = genres.map(g => g.count);
+    
+        res.json({
+          labels: genreLabels,
+          counts: genreCounts,
+        });
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+});
 module.exports = router;

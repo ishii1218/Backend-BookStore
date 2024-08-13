@@ -48,7 +48,7 @@ const user = new mongoose.Schema(
         package:{
             type: String,
             default: 'no package',
-            enum: ['main', 'premium']
+            enum: ['no package','main', 'premium']
         },
     
     },
