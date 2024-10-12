@@ -25,7 +25,7 @@ app.use(cart);
 app.use(order);
 
 
-const PORT = process.env.PORT || 1000; // Default to 1000 when testing locally
+const PORT = process.env.PORT || 3000; // Default to 3000 when testing locally
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
