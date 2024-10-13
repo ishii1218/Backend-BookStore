@@ -13,7 +13,7 @@ const cart = require('./routes/cart');
 const order = require('./routes/order');
 
 const allowedOrigins = [
-    'https://vercel.com/ishii1218s-projects/frontend-book-store/CdjqY2rjjZKAyb3nUZoJ58YnK6a3',
+    'https://frontend-book-store-gamma.vercel.app',
     'https://frontend-bookstore-r5si.onrender.com'
   ];
 
