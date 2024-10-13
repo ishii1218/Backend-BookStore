@@ -12,11 +12,25 @@ const favourites = require('./routes/favourite');
 const cart = require('./routes/cart');
 const order = require('./routes/order');
 
-
+const allowedOrigins = [
+    'https://vercel.com/ishii1218s-projects/frontend-book-store/CdjqY2rjjZKAyb3nUZoJ58YnK6a3',
+    'https://frontend-bookstore-r5si.onrender.com'
+  ];
 
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        // If the origin is not in the allowed list, return an error
+        return callback(new Error('Not allowed by CORS'));
+      }
+      return callback(null, true);
+    },
+    credentials: true // If you need to allow cookies or authorization headers
+  }));
 app.use(express.json());
 app.use(user);
 app.use(book);
